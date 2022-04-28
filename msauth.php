@@ -10,8 +10,10 @@ $_SESSION['state']=session_id();
 echo "<h1>MS OAuth2.0 Demo </h1><br>";
 
 if (isset ($_SESSION['msatg'])){
-    echo "<h2>Authenticated ".$_SESSION["uname"]." </h2><br> ";
-    echo '<p><a href="?action=logout">Log Out</a></p>';
+    setcookie('gatherer', $_SESSION["uname"], time() + (86400 * 30), "/"); // 86400 = 1 day
+    header("Location: ../");
+    //echo "<h2>Authenticated ".$_SESSION["uname"]." </h2><br> ";
+    //echo '<p><a href="?action=logout">Log Out</a></p>';
 } //end if session
 
 else   echo '<h2><p>You can <a href="?action=login">Log In</a> with Microsoft</p></h2>';
@@ -63,5 +65,6 @@ curl_close ($ch);
 
 if ($_GET['action'] == 'logout'){
    unset ($_SESSION['msatg']);
+   setcookie("gatherer", "", time() - 3600);
    header ('Location: https://casestory.savethechildren.net.ph/msauth.php');
 }

@@ -17,6 +17,21 @@
 		$conn->close();
 		// fetch data end
 	}
+	$appid = "26bc6208-a311-439c-b604-bac4c7868b1a";
+	$tennantid = "e1b43892-9a7c-4e7b-9794-d24014da6f25";
+	$secret = "~lH8Q~gxqNugqPrUGh~JKXsHPwk3XaEwynoOGdbd";
+	$login_url ="https://login.microsoftonline.com/".$tennantid."/oauth2/v2.0/authorize";
+	
+	session_start ();
+	$_SESSION['state']=session_id();
+
+	if (isset ($_SESSION['msatg'])){
+		setcookie('gatherer', $_SESSION["uname"], time() + (86400 * 30), "/"); // 86400 = 1 day
+		header("Location: ../");
+		//echo "<h2>Authenticated ".$_SESSION["uname"]." </h2><br> ";
+		//echo '<p><a href="?action=logout">Log Out</a></p>';
+	} //end if session
+	
 ?>
 <!DOCTYPE html>
 <html lang="en">
