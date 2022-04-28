@@ -1,13 +1,13 @@
 <?php
 
-$appid = "26bc6208-a311-439c-b604-bac4c7868b1a";
-$tennantid = "e1b43892-9a7c-4e7b-9794-d24014da6f25";
-$secret = "~lH8Q~gxqNugqPrUGh~JKXsHPwk3XaEwynoOGdbd";
+$appid = "40aa6ca1-881c-43f1-9678-59ab33e5adf7";
+$tennantid = "fcb15f07-e2b0-4a30-93e8-928a0ff1e25c";
+$secret = "SD08Q~CusVSncHnYFqMMlZ3HMYno9BKyWusJ-aoq";
 $login_url ="https://login.microsoftonline.com/".$tennantid."/oauth2/v2.0/authorize";
 
 session_start ();
 $_SESSION['state']=session_id();
-echo "<h1>MS OAuth2.0 Demo </h1><br>";
+//echo "<h1>MS OAuth2.0 Demo </h1><br>";
 
 if (isset ($_SESSION['msatg'])){
     setcookie('gatherer', $_SESSION["uname"], time() + (86400 * 30), "/"); // 86400 = 1 day
@@ -16,7 +16,7 @@ if (isset ($_SESSION['msatg'])){
     //echo '<p><a href="?action=logout">Log Out</a></p>';
 } //end if session
 
-else   echo '<h2><p>You can <a href="?action=login">Log In</a> with Microsoft</p></h2>';
+//else   echo '<h2><p>You can <a href="?action=login">Log In</a> with Microsoft</p></h2>';
 
 if ($_GET['action'] == 'login'){
     $params = array ('client_id' =>$appid,
@@ -68,3 +68,27 @@ if ($_GET['action'] == 'logout'){
    setcookie("gatherer", "", time() - 3600);
    header ('Location: https://casestory.savethechildren.net.ph/msauth.php');
 }
+?>
+<html>
+    <head>
+        <title>Save the Children Philippines - Case Stories</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="icon" type="image/png" href="login/images/icons/favicon.ico"/>
+        <link rel="stylesheet" type="text/css" href="login/vendor/bootstrap/css/bootstrap.min.css">
+        <link rel="stylesheet" type="text/css" href="login/fonts/font-awesome-4.7.0/css/font-awesome.min.css">
+        <link rel="stylesheet" type="text/css" href="login/fonts/Linearicons-Free-v1.0.0/icon-font.min.css">
+        <link rel="stylesheet" type="text/css" href="login/vendor/animate/animate.css">
+        <link rel="stylesheet" type="text/css" href="login/vendor/css-hamburgers/hamburgers.min.css">
+        <link rel="stylesheet" type="text/css" href="login/vendor/animsition/css/animsition.min.css">
+        <link rel="stylesheet" type="text/css" href="login/vendor/select2/select2.min.css">
+        <link rel="stylesheet" type="text/css" href="login/vendor/daterangepicker/daterangepicker.css">
+        <link rel="stylesheet" type="text/css" href="login/css/util.css">
+        <link rel="stylesheet" type="text/css" href="login/css/main.css">
+    </header>
+    <body>
+        <div class="container-login100" style="background-image: url('https://www.savethechildren.org.ph/__resources/webdata/images/pages/8_og_.jpg');">
+            <?php echo '<a href="?action=login"><img src="login/images/mslogin.png"></a></h2>'; ?>
+        </div>
+    </body>
+</html>

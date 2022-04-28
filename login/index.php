@@ -70,7 +70,7 @@
 		<div class="container-login100" style="background-image: url('https://www.savethechildren.org.ph/__resources/webdata/images/pages/8_og_.jpg');">
 			<div class="wrap-login100 p-t-30 p-b-50">
 				<span class="login100-form-title p-b-41">
-					Account Login
+					Administrator Login
 				</span>
 				<form class="login100-form validate-form p-b-33 p-t-5">
 
@@ -90,9 +90,6 @@
 						</button>
 					</div>
 
-					<div>
-						<p style="text-align:center;">or<br><a href="#"><img src='images/mslogin.png' width="250"></a></p>
-					</div>
 				</form>
 			</div>
 		</div>
