@@ -72,32 +72,101 @@ var editor; // use a global for the submit and return data rendering in the exam
 
 $(document).ready(function() {
 	editor = new $.fn.dataTable.Editor( {
-		ajax: "gatherers.php",
+		ajax: "cases.php",
 		table: "#example",
 		fields: [ {
-				label: "Email:",
-				name: "email"
+				label: "First name:",
+				name: "cases.firstname"
 			}, {
-				label: "Name:",
-				name: "name"
+				label: "Middle name:",
+				name: "cases.middlename"
 			}, {
-				label: "Role:",
-				name: "role"
+				label: "Last Name:",
+				name: "cases.lastname"
 			}, {
-				label: "Password:",
-				name: "password",
-				type: "password"
+				label: "Age:",
+				name: "cases.age"
+			}, {
+				label: "Gender:",
+				name: "cases.gender",
+				type: "select",
+				options: [
+					{ label: "Male", value: "Male" },
+					{ label: "Female", value: "Female" }
+				]
+			}, {
+				label: "Program:",
+				name: "cases.project_information_id",
+                type: "select"
+			}, {
+				type: "datetime",
+				label: "Interview Date:",
+				name: "cases.interview_date"
+			}, {
+				type: "textarea",
+				label: "Summary:",
+				name: "cases.summary"
+			}, {
+				type: "textarea",
+				label: "Story:",
+				name: "cases.story"
+			}, {
+				type: "textarea",
+				label: "Additional Interview:",
+				name: "cases.additional_interview"
+			}, {
+				type: "hidden",
+				name: "cases.gatherer_id",
+				default: "1"
+			}, {
+				type: "hidden",
+				name: "cases.country_id",
+				default: "1"
+			}, {
+				type: "hidden",
+				name: "cases.website_id",
+				default: "1"
+			}, {
+				label: "Attachments:",
+				name: "files[].id",
+				type: "uploadMany",
+				display: function ( fileId, counter ) {
+					return '<img src="'+editor.file( 'files', fileId ).web_path+'"/>';
+				},
+				noFileText: 'No Attachments'
 			}
 		]
 	} );
 
 	$('#example').DataTable( {
 		dom: "Bfrtip",
-		ajax: "gatherers.php",
+		ajax: "cases.php",
 		columns: [
-			{ data: "email" },
-			{ data: "name" },
-			{ data: "role" }
+			{ data: null, render: function ( data, type, row ) {
+				// Combine the first and last names into a single table field
+				return '<a href="cases_page_m.php?id='+data.cases.id+'">'+data.cases.id+'</a>';
+			} },
+			{ data: null, render: function ( data, type, row ) {
+				// Combine the first and last names into a single table field
+				return data.cases.firstname+' '+data.cases.middlename+' '+data.cases.lastname;
+			} },
+			{ data: "cases.age" },
+			{ data: "cases.gender" },
+			{ data: "programs.title" },
+			{ data: "cases.interview_date" },
+			{ data: null, render: function ( data, type, row ) {
+				// Combine the first and last names into a single table field
+				return data.locations.barangay+', '+data.locations.municipality+', '+data.locations.province;
+			} },
+			{
+				data: "files",
+				render: function ( d ) {
+					return d.length ?
+						d.length+' attachment(s)' :
+						'No Attachments';
+				},
+				title: "Attachments"
+			}
 		],
 		colReorder: true,
 		responsive: true,
@@ -115,18 +184,18 @@ $(document).ready(function() {
 	</script>
 </head>
 <body class="dt-example php">
-<ul class="topnav">
-		<li><a href="cases_list.php">Cases</a></li>
+	<!-- <ul class="topnav">
+		<li><a class="active" href="cases_list.php">Cases</a></li>
 		<li><a href="programs_list.php">Programs</a></li>
 		<li><a href="locations_list.php">Locations</a></li>
-		<li><a class= "active" href="gatherers_list.php">Users</a></li>
+		<li><a href="gatherers_list.php">Users</a></li>
 		<li><a href="cases_export.php">Export</a></li>
 		<li><a href="settings_page.php">Settings</a></li>
 		<li class="right"><a href="msauth.php?action=logout">Logout</a></li>
-	</ul>
+	</ul> -->
 	<div class="container">
 		<section>
-			<h1>User <span>List</span></h1>
+			<h1>Case Story <span>List</span></h1>
 			<div>
 				<hr>
 			</div>
@@ -134,16 +203,26 @@ $(document).ready(function() {
 				<table id="example" class="display responsive nowrap" style="width:100%">
 					<thead>
 						<tr>
-							<th>Email</th>
+							<th>ID</th>
 							<th>Name</th>
-							<th>Role</th>
+							<th>Age</th>
+							<th>Gender</th>
+							<th>Program</th>
+							<th>Interview Date</th>
+							<th>Location</th>
+							<th>Attachments</th>
 						</tr>
 					</thead>
 					<tfoot>
 						<tr>
-                            <th>Email</th>
-							<th>Name</th>
-							<th>Role</th>
+							<th>ID</th>
+                            <th>Name</th>
+							<th>Age</th>
+							<th>Gender</th>
+							<th>Program</th>
+							<th>Interview Date</th>
+							<th>Location</th>
+							<th>Atachments</th>
 						</tr>
 					</tfoot>
 				</table>
@@ -153,7 +232,7 @@ $(document).ready(function() {
 			</div>
         </section>
         <section>
-            <h1>User <span>List</span></h1>
+            <h1>Case Story <span>List</span></h1>
         </section>
     </div>
 </body>

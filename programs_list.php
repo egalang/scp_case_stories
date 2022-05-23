@@ -122,6 +122,8 @@ $(document).ready(function() {
 		<li><a class="active" href="programs_list.php">Programs</a></li>
 		<li><a href="locations_list.php">Locations</a></li>
 		<li><a href="gatherers_list.php">Users</a></li>
+		<li><a href="cases_export.php">Export</a></li>
+		<li><a href="settings_page.php">Settings</a></li>
 		<li class="right"><a href="msauth.php?action=logout">Logout</a></li>
 	</ul>
 	<div class="container">

@@ -71,7 +71,7 @@
 	</style>
 </head>
 <body>
-    <ul class="topnav">
+    <!-- <ul class="topnav">
 		<li><a class="active" href="cases_list.php">Cases</a></li>
 		<li><a href="programs_list.php">Programs</a></li>
 		<li><a href="locations_list.php">Locations</a></li>
@@ -79,8 +79,10 @@
 		<li><a href="cases_export.php">Export</a></li>
 		<li><a href="settings_page.php">Settings</a></li>
 		<li class="right"><a href="logout.php">Logout</a></li>
-	</ul>
-    <div class="container p-5 my-5">
+	</ul> -->
+    <div class="container p-5 my-5">        
+        <a href="cases_list_m.php" class="btn btn-secondary" role="button">Return to List</a>
+        <hr>
         <div class="row">
             <div class="col">
                 <img src="https://www.savethechildren.org/etc/clientlibs/us/clientlib-site/images/icons/stc-logo.svg" class="img-fluid" alt="Save the Children" width="50%">
