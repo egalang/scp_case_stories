@@ -1,4 +1,5 @@
 <?php
+	setcookie('mobile', 'true', time() + (86400 * 30), "/"); // 86400 = 1 day
 	if(!isset($_COOKIE['gatherer'])) {
 		header("Location: msauth.php");
 	}
@@ -213,7 +214,7 @@ $(document).ready(function() {
 							<th>Attachments</th>
 						</tr>
 					</thead>
-					<tfoot>
+					<!-- <tfoot>
 						<tr>
 							<th>ID</th>
                             <th>Name</th>
@@ -224,16 +225,16 @@ $(document).ready(function() {
 							<th>Location</th>
 							<th>Atachments</th>
 						</tr>
-					</tfoot>
+					</tfoot> -->
 				</table>
 			</div>
 			<div>
 				<hr>
 			</div>
         </section>
-        <section>
+        <!-- <section>
             <h1>Case Story <span>List</span></h1>
-        </section>
+        </section> -->
     </div>
 </body>
 </html>

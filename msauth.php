@@ -11,7 +11,12 @@ $_SESSION['state']=session_id();
 
 if (isset ($_SESSION['msatg'])){
     setcookie('gatherer', $_SESSION["uname"], time() + (86400 * 30), "/"); // 86400 = 1 day
-    header("Location: ../");
+    if (isset ($_COOKIE['mobile'])){
+        header("Location: cases_list_m.php");
+    } else {
+        header("Location: ../");
+    }
+    
     //echo "<h2>Authenticated ".$_SESSION["uname"]." </h2><br> ";
     //echo '<p><a href="?action=logout">Log Out</a></p>';
 } //end if session
