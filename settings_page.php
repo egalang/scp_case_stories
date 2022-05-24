@@ -1,7 +1,16 @@
 <?php
+	require 'db.php';
 	if(!isset($_COOKIE['gatherer'])) {
 		header("Location: msauth.php");
 	}
+    $conn = new mysqli($servername, $username, $password, $dbname);
+    $sql = "SELECT * FROM settings;";
+    $result = $conn->query($sql);
+    $row = $result->fetch_assoc();
+    $client_id = $row['client_id'];
+    $tenant_id = $row['tenant_id'];
+    $secret = $row['secret'];
+    $conn->close();
 ?>
 <!DOCTYPE html>
 <html>
@@ -238,17 +247,20 @@ $(document).ready(function() {
 					</tr>
 				</table>
                 <h3>Single Sign-On</h3>
+				<form action="settings_save.php">
 				<table class="table">
 					<tr>
-						<td>App ID</td><td><input type="text" value="wq349fuh230f9ubq3249truh" /></td>
+						<td>Tenant ID</td><td><input type="text" value="<?php echo $tenant_id; ?>" name="tenant_id" /></td>
 					</tr>
 					<tr>
-						<td>API Key</td><td><input type="text" value="02983rfvb0978134t09134r" /></td>
+						<td>Client ID</td><td><input type="text" value="<?php echo $client_id; ?>" name="client_id" /></td>
 					</tr>
 					<tr>
-						<td>API Secret</td><td><input type="password" value="1-9384hf-10e29nd" /></td>
+						<td>Secret</td><td><input type="password" value="<?php echo $secret; ?>" name="secret" /></td>
 					</tr>
 				</table>
+				<br><input type="submit" value="Save" />
+				</form>
             </div>
 			<div>
 				<hr>

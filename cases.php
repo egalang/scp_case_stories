@@ -66,7 +66,7 @@ Editor::inst( $db, 'cases' )
 							'web_path'    => Upload::DB_WEB_PATH,
 							'system_path' => Upload::DB_SYSTEM_PATH
 						) )
-						->validator( Validate::fileSize( 500000, 'Files must be smaller that 500K' ) )
+						->validator( Validate::fileSize( 5000000, 'Files must be smaller that 500K' ) )
 						//->validator( Validate::fileExtensions( array( 'png', 'jpg', 'jpeg', 'gif' ), "Please upload an image" ) )
 					)
 			)

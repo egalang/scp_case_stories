@@ -1,25 +1,39 @@
 <?php
-    require 'phpmailer/PHPMailerAutoload.php';
-    $mail = new PHPMailer;
-    // $mail->isSMTP();
-    // $mail->SMTPDebug = 2;
-    // $mail->Debugoutput = 'html';
-    // $mail->Host='mail.obbsco.com';
-    // $mail->Port=587;
-    // $mail->SMTPAuth=true;
-    // //$mail->SMTPSecure='tls';
-    // $mail->Username='erwin.galang@obbsco.com';
-    // $mail->Password='F!renza130';
-    // $mail->setFrom('erwin.galang@obbsco.com','Erwin Galang');
-    // $mail->addAddress('erwing.geo@yahoo.com');
-    // $mail->addReplyTo('erwin.galang@obbsco.com');
-    // $mail->isHTML(true);
-    // $mail->Subject='Case Story Notification';
-    // $mail->Body='<h1>A new case has been created!</h1><br><p>You are getting this notification because your email address is listed as a recipient.</p>';
-    // //send the message, check for errors
-    // if (!$mail->send()) {
-    //     echo "Mailer Error: " . $mail->ErrorInfo;
-    // } else {
-    //     echo "Message sent!";
-    // }
-?>
+require '/usr/share/php/libphp-phpmailer/src/PHPMailer.php';
+require '/usr/share/php/libphp-phpmailer/src/SMTP.php';
+
+//Declare the object of PHPMailer
+
+//$email = new PHPMailer\PHPMailer\PHPMailer();
+
+//Set up necessary configuration to send email
+
+// $email->IsSMTP();
+// $email->SMTPAuth = true;
+// $email->SMTPSecure = 'tls';
+// $email->Host = "mail.obbsco.com";
+// $email->Port = 587;
+
+// //Set the gmail address that will be used for sending email
+// $email->Username = "erwin.galang@obbsco.com";
+
+// //Set the valid password for the gmail address
+// $email->Password = "F!renz@130";
+
+// //Set the sender email address
+// $email->SetFrom("erwin.galang@obbsco.com");
+
+// //Set the receiver email address
+// $email->AddAddress("note.genius@gmail.com");
+
+// //Set the subject
+// $email->Subject = "Testing Email";
+
+// //Set email content
+// $email->Body = "Hello! use PHPMailer to send email using PHP. - Case Stories Server";
+// if(!$email->Send()) {
+//   echo "Error: " . $email->ErrorInfo;
+// } else {
+//   echo "Email has been sent.";
+// }
+// ?>
