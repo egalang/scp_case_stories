@@ -16,12 +16,12 @@ if(!PHPMailer::validateAddress($to)) {
 }
 $mail->isSMTP();
 $mail->SMTPDebug  = 2;
-$mail->Host       = "mail.obbsco.com";
-$mail->Port       = "587";
-$mail->SMTPSecure = "tls";
+$mail->Host       = $host;
+$mail->Port       = $port;
+$mail->SMTPSecure = $smtp_security;
 $mail->SMTPAuth   = true;
-$mail->Username   = "erwin.galang@obbsco.com";
-$mail->Password   = "F!renz@130";
+$mail->Username   = $username;
+$mail->Password   = $password;
 $mail->addReplyTo("erwin.galang@obbsco.com", "Erwin Galang");
 $mail->setFrom("erwin.galang@obbsco.com", "Erwin Galang");
 $mail->addAddress("erwing.geo@yahoo.com", "Erwin Galang");
