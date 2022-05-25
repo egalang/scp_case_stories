@@ -11,7 +11,7 @@ ini_set('display_errors', '1');
 $sql_details = array(
 	"type" => "Mysql",     // Database type: "Mysql", "Postgres", "Sqlserver", "Sqlite" or "Oracle"
 	"user" => "admin",          // Database user name
-	"pass" => "oSDGLO80j2sf",          // Database password
+	"pass" => "aMI9Oars6o3t",          // Database password
 	"host" => "localhost", // Database host
 	"port" => "",          // Database connection port (can be left empty for default)
 	"db"   => "stories",          // Database name

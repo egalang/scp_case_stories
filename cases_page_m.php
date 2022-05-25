@@ -8,7 +8,7 @@
     //fetch data
     $servername = "localhost";
     $username = "admin";
-    $password = "oSDGLO80j2sf";
+    $password = "aMI9Oars6o3t";
     $dbname = "stories";
     $conn = new mysqli($servername, $username, $password, $dbname);
     $sql = "SELECT firstname, middlename, lastname, age, gender FROM cases WHERE id = $id;";

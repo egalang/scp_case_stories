@@ -1,39 +1,57 @@
 <?php
-require '/usr/share/php/libphp-phpmailer/src/PHPMailer.php';
-require '/usr/share/php/libphp-phpmailer/src/SMTP.php';
-
-//Declare the object of PHPMailer
-
-//$email = new PHPMailer\PHPMailer\PHPMailer();
-
-//Set up necessary configuration to send email
-
-// $email->IsSMTP();
-// $email->SMTPAuth = true;
-// $email->SMTPSecure = 'tls';
-// $email->Host = "mail.obbsco.com";
-// $email->Port = 587;
-
-// //Set the gmail address that will be used for sending email
-// $email->Username = "erwin.galang@obbsco.com";
-
-// //Set the valid password for the gmail address
-// $email->Password = "F!renz@130";
-
-// //Set the sender email address
-// $email->SetFrom("erwin.galang@obbsco.com");
-
-// //Set the receiver email address
-// $email->AddAddress("note.genius@gmail.com");
-
-// //Set the subject
-// $email->Subject = "Testing Email";
-
-// //Set email content
-// $email->Body = "Hello! use PHPMailer to send email using PHP. - Case Stories Server";
-// if(!$email->Send()) {
-//   echo "Error: " . $email->ErrorInfo;
-// } else {
-//   echo "Email has been sent.";
-// }
-// ?>
+require_once 'phpmailer/PHPMailerAutoload.php';
+ 
+$results_messages = array();
+ 
+$mail = new PHPMailer(true);
+$mail->CharSet = 'utf-8';
+ini_set('default_charset', 'UTF-8');
+ 
+class phpmailerAppException extends phpmailerException {}
+ 
+try {
+$to = 'erwing.geo@yahoo.com';
+if(!PHPMailer::validateAddress($to)) {
+  throw new phpmailerAppException("Email address " . $to . " is invalid -- aborting!");
+}
+$mail->isSMTP();
+$mail->SMTPDebug  = 2;
+$mail->Host       = "mail.obbsco.com";
+$mail->Port       = "587";
+$mail->SMTPSecure = "tls";
+$mail->SMTPAuth   = true;
+$mail->Username   = "erwin.galang@obbsco.com";
+$mail->Password   = "F!renz@130";
+$mail->addReplyTo("erwin.galang@obbsco.com", "Erwin Galang");
+$mail->setFrom("erwin.galang@obbsco.com", "Erwin Galang");
+$mail->addAddress("erwing.geo@yahoo.com", "Erwin Galang");
+$mail->Subject  = "test (PHPMailer test using SMTP)";
+$body = <<<'EOT'
+Test from SCP case stories.
+EOT;
+$mail->WordWrap = 78;
+$mail->msgHTML($body, dirname(__FILE__), true); //Create message bodies and embed images
+$mail->addAttachment('phpmailer/examples/images/phpmailer_mini.png','phpmailer_mini.png');  // optional name
+$mail->addAttachment('phpmailer/examples/images/phpmailer.png', 'phpmailer.png');  // optional name
+ 
+try {
+  $mail->send();
+  $results_messages[] = "Message has been sent using SMTP";
+}
+catch (phpmailerException $e) {
+  throw new phpmailerAppException('Unable to send to: ' . $to. ': '.$e->getMessage());
+}
+}
+catch (phpmailerAppException $e) {
+  $results_messages[] = $e->errorMessage();
+}
+ 
+if (count($results_messages) > 0) {
+  echo "<h2>Run results</h2>\n";
+  echo "<ul>\n";
+foreach ($results_messages as $result) {
+  echo "<li>$result</li>\n";
+}
+echo "</ul>\n";
+}
+?>
