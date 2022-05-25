@@ -7,7 +7,12 @@
     $sql = "SELECT * FROM settings;";
     $result = $conn->query($sql);
     $row = $result->fetch_assoc();
-    $client_id = $row['client_id'];
+    $email = $row['email'];
+	$pwd = $row['pwd'];
+	$host = $row['host'];
+	$port = $row['port'];
+	$sec = $row['sec'];
+	$client_id = $row['client_id'];
     $tenant_id = $row['tenant_id'];
     $secret = $row['secret'];
     $conn->close();
@@ -226,9 +231,10 @@ $(document).ready(function() {
 			</div>
             <div>
 				<h3>Notification</h3>
+				<form action="settings_save.php">
 				<table class="table">
 					<tr>
-						<td>Email</td><td><input type="text" value="administrator@savethechildren.net.ph" /></td>
+						<td>Recepient</td><td><input type="text" value="casestory@savethechildren.net.ph" name="mailto" /></td>
 					</tr>
 					<tr>
 						<td>Message</td><td><input type="textarea" value="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum." /></td>
@@ -237,17 +243,22 @@ $(document).ready(function() {
 				<h3>Mail Relay</h3>
 				<table class="table">
 					<tr>
-						<td>Relay Host</td><td><input type="text" value="mail.obbsco.com" /></td>
+						<td>Account</td><td><input type="text" value="<?php echo $email; ?>" name="email" /></td>
 					</tr>
 					<tr>
-						<td>Relay Port</td><td><input type="text" value="587" /></td>
+						<td>Password</td><td><input type="password" value="<?php echo $pwd; ?>" name="pwd" /></td>
 					</tr>
 					<tr>
-						<td>Encryption</td><td><input type="text" value="TLS" /></td>
+						<td>Relay Host</td><td><input type="text" value="<?php echo $host; ?>" name="host" /></td>
+					</tr>
+					<tr>
+						<td>Relay Port</td><td><input type="text" value="<?php echo $port; ?>" name="port" /></td>
+					</tr>
+					<tr>
+						<td>Encryption</td><td><input type="text" value="<?php echo $sec; ?>" name="sec" /></td>
 					</tr>
 				</table>
                 <h3>Single Sign-On</h3>
-				<form action="settings_save.php">
 				<table class="table">
 					<tr>
 						<td>Tenant ID</td><td><input type="text" value="<?php echo $tenant_id; ?>" name="tenant_id" /></td>

@@ -18,7 +18,7 @@ $mail->isSMTP();
 $mail->SMTPDebug  = 2;
 $mail->Host       = $host;
 $mail->Port       = $port;
-$mail->SMTPSecure = $smtp_security;
+$mail->SMTPSecure = $security;
 $mail->SMTPAuth   = true;
 $mail->Username   = $username;
 $mail->Password   = $password;

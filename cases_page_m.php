@@ -1,15 +1,12 @@
 <?php
-	if(!isset($_COOKIE['gatherer'])) {
+	require 'db.php';
+    if(!isset($_COOKIE['gatherer'])) {
 		header("Location: login");
 	}
 	if( isset($_GET['id']) ){
 		$id = $_GET['id'];
     }
     //fetch data
-    $servername = "localhost";
-    $username = "admin";
-    $password = "aMI9Oars6o3t";
-    $dbname = "stories";
     $conn = new mysqli($servername, $username, $password, $dbname);
     $sql = "SELECT firstname, middlename, lastname, age, gender FROM cases WHERE id = $id;";
     $result = $conn->query($sql);
