@@ -1,6 +1,23 @@
 <?php
 require_once 'phpmailer/PHPMailerAutoload.php';
- 
+require 'db.php';
+
+$conn = new mysqli($servername, $username, $password, $dbname);
+$sql = "SELECT * FROM settings;";
+$result = $conn->query($sql);
+$row = $result->fetch_assoc();
+$mailto = $row['mailto'];
+$msg = $row['msg'];
+$email = $row['email'];
+$pwd = $row['pwd'];
+$host = $row['host'];
+$port = $row['port'];
+$sec = $row['sec'];
+$client_id = $row['client_id'];
+$tenant_id = $row['tenant_id'];
+$secret = $row['secret'];
+$conn->close();
+
 $results_messages = array();
  
 $mail = new PHPMailer(true);
@@ -18,19 +35,19 @@ $mail->isSMTP();
 $mail->SMTPDebug  = 2;
 $mail->Host       = $host;
 $mail->Port       = $port;
-$mail->SMTPSecure = $security;
+$mail->SMTPSecure = $sec;
 $mail->SMTPAuth   = true;
-$mail->Username   = $username;
-$mail->Password   = $password;
-$mail->addReplyTo("erwin.galang@obbsco.com", "Erwin Galang");
-$mail->setFrom("erwin.galang@obbsco.com", "Erwin Galang");
-$mail->addAddress("erwing.geo@yahoo.com", "Erwin Galang");
-$mail->Subject  = "test (PHPMailer test using SMTP)";
+$mail->Username   = $email;
+$mail->Password   = $pwd;
+$mail->addReplyTo($email, "Case Story Notifier");
+$mail->setFrom($email, "Case Story Notifier");
+$mail->addAddress($mailto, "Case Story Administrator");
+$mail->Subject  = "There is a new case story";
 $body = <<<'EOT'
 Test from SCP case stories.
 EOT;
 $mail->WordWrap = 78;
-$mail->msgHTML($body, dirname(__FILE__), true); //Create message bodies and embed images
+$mail->msgHTML($msg, dirname(__FILE__), true); //Create message bodies and embed images
 $mail->addAttachment('phpmailer/examples/images/phpmailer_mini.png','phpmailer_mini.png');  // optional name
 $mail->addAttachment('phpmailer/examples/images/phpmailer.png', 'phpmailer.png');  // optional name
  

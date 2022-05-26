@@ -74,5 +74,8 @@ Editor::inst( $db, 'cases' )
     ->leftJoin( 'gatherers', 'gatherers.id', '=', 'cases.gatherer_id' )
     ->leftJoin( 'programs', 'programs.id', '=', 'cases.project_information_id' )
     ->leftJoin( 'locations', 'locations.id', '=', 'programs.location' )
+	->on( 'postCreate', function ( $editor, $id, &$values, &$row ) {
+		exec("php mail_send.php");
+    } )
 	->process( $_POST )
 	->json();
