@@ -82,7 +82,8 @@ $(document).ready(function() {
 				name: "name"
 			}, {
 				label: "Role:",
-				name: "role"
+				name: "role",
+				default: "Admin"
 			}, {
 				label: "Password:",
 				name: "password",
@@ -126,7 +127,7 @@ $(document).ready(function() {
 	</ul>
 	<div class="container">
 		<section>
-			<h1>User <span>List</span></h1>
+			<h1>Admin <span>List</span></h1>
 			<div>
 				<hr>
 			</div>
@@ -153,7 +154,7 @@ $(document).ready(function() {
 			</div>
         </section>
         <section>
-            <h1>User <span>List</span></h1>
+            <h1>Admin <span>List</span></h1>
         </section>
     </div>
 </body>

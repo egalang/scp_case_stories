@@ -20,6 +20,7 @@ use
 
 // Build our Editor instance and process the data coming from _POST
 Editor::inst( $db, 'cases' )
+	->where('gatherer',$_COOKIE['gatherer'])
 	->fields(
 		Field::inst( 'cases.id' ),
 		Field::inst( 'cases.firstname' )
@@ -46,8 +47,11 @@ Editor::inst( $db, 'cases' )
 		Field::inst( 'cases.website_id' ),
 		Field::inst( 'cases.country_id' ),
 		Field::inst( 'cases.interview_date' ),
+		Field::inst( 'cases.date' ),
 		Field::inst( 'gatherers.name' ),
+		Field::inst( 'cases.gatherer' ),
 		Field::inst( 'programs.title' ),
+		Field::inst( 'programs.background' ),
 		Field::inst( 'locations.barangay' ),
 		Field::inst( 'locations.municipality' ),
 		Field::inst( 'locations.province' ),
@@ -66,7 +70,7 @@ Editor::inst( $db, 'cases' )
 							'web_path'    => Upload::DB_WEB_PATH,
 							'system_path' => Upload::DB_SYSTEM_PATH
 						) )
-						->validator( Validate::fileSize( 5000000, 'Files must be smaller that 500K' ) )
+						->validator( Validate::fileSize( 100000000, 'Files must be smaller that 100MB' ) )
 						//->validator( Validate::fileExtensions( array( 'png', 'jpg', 'jpeg', 'gif' ), "Please upload an image" ) )
 					)
 			)
@@ -75,7 +79,7 @@ Editor::inst( $db, 'cases' )
     ->leftJoin( 'programs', 'programs.id', '=', 'cases.project_information_id' )
     ->leftJoin( 'locations', 'locations.id', '=', 'programs.location' )
 	->on( 'postCreate', function ( $editor, $id, &$values, &$row ) {
-		exec("php mail_send.php");
+		exec("php -f mail_send.php id=$id");
     } )
 	->process( $_POST )
 	->json();

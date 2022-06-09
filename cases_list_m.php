@@ -117,6 +117,10 @@ $(document).ready(function() {
 				name: "cases.additional_interview"
 			}, {
 				type: "hidden",
+				name: "cases.gatherer",
+				default: "<?php echo $_COOKIE['gatherer']; ?>"
+			}, {
+				type: "hidden",
 				name: "cases.gatherer_id",
 				default: "1"
 			}, {

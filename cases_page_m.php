@@ -1,14 +1,16 @@
 <?php
 	require 'db.php';
     if(!isset($_COOKIE['gatherer'])) {
-		header("Location: login");
+		header("Location: msauth.php");
 	}
 	if( isset($_GET['id']) ){
 		$id = $_GET['id'];
     }
     //fetch data
     $conn = new mysqli($servername, $username, $password, $dbname);
-    $sql = "SELECT firstname, middlename, lastname, age, gender FROM cases WHERE id = $id;";
+    $sql = "SELECT * FROM cases
+            LEFT JOIN programs ON programs.id = cases.project_information_id
+            LEFT JOIN locations ON locations.id = programs.location WHERE cases.id = $id;";
     $result = $conn->query($sql);
     if ($result->num_rows > 0) {
         $row = $result->fetch_assoc();
@@ -18,7 +20,13 @@
     $lastname = $row['lastname'];
     $age = $row['age'];
     $gender = $row['gender'];
-    $conn->close();
+    $summary = $row['summary'];
+    $story = $row['story'];
+    $additional_interview = $row['additional_interview'];
+    $gatherer = $row['gatherer'];
+    $interview_date = $row['interview_date'];
+    $location = $row['barangay'].', '.$row['municipality'].', '.$row['province'];
+    $background = $row['background'];
     // fetch data end
 ?>
 <!DOCTYPE html>
@@ -96,9 +104,20 @@
             <tr><th>Themes</th><td>[To be added by picture editor]</td></tr>
         </table>
         <h3>Photo References</h3>
-        <img src="uploads/5.jpeg" class="img-thumbnail" width="150">
+        <?php
+            $sql = "SELECT * FROM `users_files`
+                    LEFT JOIN files ON files.id = users_files.file_id
+                    WHERE users_files.user_id = $id;";
+            $result = $conn->query($sql);
+            if ($result->num_rows > 0) {
+                while($row = $result->fetch_assoc()) {
+                    echo "<img src='".$row['web_path']."' class='img-thumbnail' width='150'>";
+                }
+            }
+            $conn->close();
+        ?>
         <h3>Summary</h3>
-        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+        <p><?php echo $summary; ?></p>
         <?php
             if( $gender == 'Male' ){
                 $pronoun = 'His story in his own words';
@@ -107,14 +126,14 @@
             }
         ?>
         <h3><?php echo $pronoun; ?></h3>
-        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+        <p><?php echo $story; ?></p>
         <h3>Additional interview with child’s parent/teacher/etc.</h3>
-        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-        <h5>Interview conducted by [content gatherer], during an assignment to [place] on [date].</h4>
+        <p><?php echo $additional_interview; ?></p>
+        <h5>Interview conducted by <?php echo $gatherer; ?>, during an assignment to <?php echo $location; ?> on <?php echo $interview_date; ?>.</h4>
         <hr>
         <h3>Project information and major issues:</h3>
-        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-        <h5>Figures are correct to the date of edit. For more information about Save the Children’s work in [country], visit [official website].</h4>
+        <p><?php echo $background; ?></p>
+        <h5>Figures are correct to the date of edit. For more information about Save the Children’s work in the Philippines, visit their <a href=https://www.savethechildren.org.ph/.>website</a>.</h4>
     </div>
 </body>
 </html>

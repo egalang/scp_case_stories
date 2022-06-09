@@ -77,7 +77,7 @@ var editor; // use a global for the submit and return data rendering in the exam
 
 $(document).ready(function() {
 	editor = new $.fn.dataTable.Editor( {
-		ajax: "cases.php",
+		ajax: "cases_admin.php",
 		table: "#example",
 		fields: [ {
 				label: "First name:",
@@ -145,25 +145,30 @@ $(document).ready(function() {
 
 	$('#example').DataTable( {
 		dom: "Bfrtip",
-		ajax: "cases.php",
+		ajax: "cases_admin.php",
 		columns: [
-			{ data: null, render: function ( data, type, row ) {
+/* 			{ data: null, render: function ( data, type, row ) {
 				// Combine the first and last names into a single table field
 				return '<a href="cases_page.php?id='+data.cases.id+'">'+data.cases.id+'</a>';
 			} },
-			{ data: null, render: function ( data, type, row ) {
+ */			{ data: "cases.id" },
+ 			{ data: null, render: function ( data, type, row ) {
 				// Combine the first and last names into a single table field
 				return data.cases.firstname+' '+data.cases.middlename+' '+data.cases.lastname;
 			} },
 			{ data: "cases.age" },
 			{ data: "cases.gender" },
-			{ data: "programs.title" },
 			{ data: "cases.interview_date" },
+			{ data: "programs.title" },
+			{ data: "programs.background" },
 			{ data: null, render: function ( data, type, row ) {
 				// Combine the first and last names into a single table field
 				return data.locations.barangay+', '+data.locations.municipality+', '+data.locations.province;
 			} },
-			{
+			{ data: "cases.summary" },
+			{ data: "cases.story" },
+			{ data: "cases.additional_interview" },
+/* 			{
 				data: "files",
 				render: function ( d ) {
 					return d.length ?
@@ -171,7 +176,8 @@ $(document).ready(function() {
 						'No Attachments';
 				},
 				title: "Attachments"
-			}
+			},
+ */			{ data: "cases.date" }
 		],
 		colReorder: true,
 		responsive: true,
@@ -223,10 +229,14 @@ $(document).ready(function() {
 							<th>Name</th>
 							<th>Age</th>
 							<th>Gender</th>
-							<th>Program</th>
 							<th>Interview Date</th>
+							<th>Program</th>
+							<th>Background</th>
 							<th>Location</th>
-							<th>Attachments</th>
+							<th>Summary</th>
+							<th>Story</th>
+							<th>Additional Interview</th>
+							<th>Create Date</th>
 						</tr>
 					</thead>
 					<tfoot>
@@ -235,10 +245,14 @@ $(document).ready(function() {
                             <th>Name</th>
 							<th>Age</th>
 							<th>Gender</th>
-							<th>Program</th>
 							<th>Interview Date</th>
+							<th>Program</th>
+							<th>Background</th>
 							<th>Location</th>
-							<th>Atachments</th>
+							<th>Summary</th>
+							<th>Story</th>
+							<th>Additional Interview</th>
+							<th>Create Date</th>
 						</tr>
 					</tfoot>
 				</table>

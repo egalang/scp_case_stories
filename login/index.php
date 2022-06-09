@@ -5,13 +5,14 @@
 		//fetch data
 		$servername = "localhost";
 		$username = "admin";
-		$password = "oSDGLO80j2sf";
+		$password = "aMI9Oars6o3t";
 		$dbname = "stories";
 		$conn = new mysqli($servername, $username, $password, $dbname);
-		$sql = "SELECT email, `password` FROM gatherers WHERE email = '$user' and `password` = '$pass';";
+		$sql = "SELECT email, `password`, name FROM gatherers WHERE email = '$user' and `password` = '$pass';";
 		$result = $conn->query($sql);
 		if ($result->num_rows > 0) {
-			setcookie('gatherer', $user, time() + (86400 * 30), "/"); // 86400 = 1 day
+			$row = $result->fetch_assoc();
+			setcookie('gatherer', $row['name'], time() + (86400 * 30), "/"); // 86400 = 1 day
 			header("Location: ../");
 		}
 		$conn->close();

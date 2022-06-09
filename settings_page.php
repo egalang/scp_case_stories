@@ -105,8 +105,8 @@
 				<div class="col-sm-6">
 					<h3>Notification</h3>
 					<div class="form-group">
-						<label for="mailto">Recipient:</label>
-						<input type="email" class="form-control" id="mailto" placeholder="Enter email" value="<?php echo $mailto; ?>" name="mailto">
+						<label for="mailto">Recipient/s:</label>
+						<textarea class="form-control" rows="2" id="mailto" placeholder="Enter emails separated by comma" name="mailto"><?php echo $mailto; ?></textarea>
 					</div>
 					<div class="form-group">
 						<label for="msg">Message:</label>
@@ -122,7 +122,7 @@
 						<input type="text" class="form-control" id="client_id" value="<?php echo $client_id; ?>" name="client_id">
 					</div>
 					<div class="form-group">
-						<label for="secret">Client ID:</label>
+						<label for="secret">Secret:</label>
 						<input type="password" class="form-control" id="secret" value="<?php echo $secret; ?>" name="secret">
 					</div>
 				</div>
@@ -146,7 +146,11 @@
 					</div>
 					<div class="form-group">
 						<label for="sec">Security:</label>
-						<input type="text" class="form-control" id="sec" value="<?php echo $sec; ?>" name="sec">
+						<select class="form-control" id="sec" name="sec">
+							<option <?php if($sec==''){echo "selected";} ?> value="">None</option>
+							<option <?php if($sec=='tls'){echo "selected";} ?> value="tls">TLS</option>
+							<option <?php if($sec=='ssl'){echo "selected";} ?> value="ssl">SSL</option>
+						</select>
 					</div>
 					<!-- 
 					<table class="table">

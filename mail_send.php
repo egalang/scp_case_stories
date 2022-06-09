@@ -2,6 +2,8 @@
 require_once 'phpmailer/PHPMailerAutoload.php';
 require 'db.php';
 
+parse_str(implode('&', array_slice($argv, 1)), $_GET);
+$id = $_GET['id'];
 $conn = new mysqli($servername, $username, $password, $dbname);
 $sql = "SELECT * FROM settings;";
 $result = $conn->query($sql);
@@ -16,6 +18,16 @@ $sec = $row['sec'];
 $client_id = $row['client_id'];
 $tenant_id = $row['tenant_id'];
 $secret = $row['secret'];
+// $sql = "SELECT cases.firstname, cases.middlename, cases.lastname,
+//         programs.title, cases.gatherer FROM cases 
+//         LEFT JOIN programs ON programs.id = cases.project_information_id 
+//         WHERE cases.id = $id";
+$sql = "SELECT * FROM cases WHERE id=$id";
+$result = $conn->query($sql);
+$row = $result->fetch_assoc();
+$name = $row['firstname']." ".$row['middlename']." ".$row['lastname'];
+//$title = $row['title'];
+$gatherer = $row['gatherer'];
 $conn->close();
 
 $results_messages = array();
@@ -41,13 +53,28 @@ $mail->Username   = $email;
 $mail->Password   = $pwd;
 $mail->addReplyTo($email, "Case Story Notifier");
 $mail->setFrom($email, "Case Story Notifier");
-$mail->addAddress($mailto, "Case Story Administrator");
+//$mail->addAddress($mailto, "Case Story Administrator");
+//start parse email addresses
+$email_list = $mailto;
+$email_array = explode(',',$email_list);
+//print_r($email_array);
+$email_loop = count($email_array);
+for ($x = 0; $x < $email_loop; $x++) {
+    //echo "$email_array[$x] <br>";
+    $mail->addAddress($email_array[$x], "Case Story Administrator");
+}
+//end parse email addresses
 $mail->Subject  = "There is a new case story";
-$body = <<<'EOT'
-Test from SCP case stories.
-EOT;
+//$body = <<<'EOT'
+//Test from SCP case stories.
+//EOT;
+$body = $msg.
+        "<br>Case Story ID: ".$id.
+        "<br>Name: ".$name.
+        "<br>Data Gatherer: ".$gatherer.
+        "<br>View the Case Story <a href='https://casestory.savethechildren.net.ph/cases_page.php?id=$id'>here</a>";
 $mail->WordWrap = 78;
-$mail->msgHTML($msg, dirname(__FILE__), true); //Create message bodies and embed images
+$mail->msgHTML($body, dirname(__FILE__), true); //Create message bodies and embed images
 $mail->addAttachment('phpmailer/examples/images/phpmailer_mini.png','phpmailer_mini.png');  // optional name
 $mail->addAttachment('phpmailer/examples/images/phpmailer.png', 'phpmailer.png');  // optional name
  

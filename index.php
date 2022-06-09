@@ -1,6 +1,18 @@
 <?php
+	require 'db.php';
 	if(!isset($_COOKIE['gatherer'])) {
 		header("Location: msauth.php");
+	} else {
+		$name = $_COOKIE['gatherer'];
+	}
+	$conn = new mysqli($servername, $username, $password, $dbname);
+    $sql = "SELECT * FROM gatherers WHERE name = '$name'";
+    $result = $conn->query($sql);
+    if ($result->num_rows > 0) {
+        //$row = $result->fetch_assoc();
+		$case = 'cases_admin.php';
+    } else {
+		$case = 'cases.php';
 	}
 ?>
 <!DOCTYPE html>
@@ -72,7 +84,8 @@ var editor; // use a global for the submit and return data rendering in the exam
 
 $(document).ready(function() {
 	editor = new $.fn.dataTable.Editor( {
-		ajax: "cases.php",
+		//ajax: "cases.php",
+		ajax: "<?php echo $case; ?>",
 		table: "#example",
 		fields: [ {
 				label: "First name:",
@@ -116,6 +129,10 @@ $(document).ready(function() {
 				name: "cases.additional_interview"
 			}, {
 				type: "hidden",
+				name: "cases.gatherer",
+				default: "<?php echo $_COOKIE['gatherer']; ?>"
+			}, {
+				type: "hidden",
 				name: "cases.gatherer_id",
 				default: "1"
 			}, {
@@ -140,7 +157,8 @@ $(document).ready(function() {
 
 	$('#example').DataTable( {
 		dom: "Bfrtip",
-		ajax: "cases.php",
+		//ajax: "cases.php",
+		ajax: "<?php echo $case; ?>",
 		columns: [
 			{ data: null, render: function ( data, type, row ) {
 				// Combine the first and last names into a single table field
@@ -154,6 +172,7 @@ $(document).ready(function() {
 			{ data: "cases.gender" },
 			{ data: "programs.title" },
 			{ data: "cases.interview_date" },
+			{ data: "cases.gatherer" },
 			{ data: null, render: function ( data, type, row ) {
 				// Combine the first and last names into a single table field
 				return data.locations.barangay+', '+data.locations.municipality+', '+data.locations.province;
@@ -184,15 +203,26 @@ $(document).ready(function() {
 	</script>
 </head>
 <body class="dt-example php">
-	<ul class="topnav">
-		<li><a class="active" href="cases_list.php">Cases</a></li>
-		<li><a href="programs_list.php">Programs</a></li>
-		<li><a href="locations_list.php">Locations</a></li>
-		<li><a href="gatherers_list.php">Users</a></li>
-		<li><a href="cases_export.php">Export</a></li>
-		<li><a href="settings_page.php">Settings</a></li>
-		<li class="right"><a href="msauth.php?action=logout">Logout</a></li>
-	</ul>
+	<?php
+	if($case=="cases_admin.php"){
+		echo
+		"<ul class='topnav'>
+			<li><a class='active' href='cases_list.php'>Cases</a></li>
+			<li><a href='programs_list.php'>Programs</a></li>
+			<li><a href='locations_list.php'>Locations</a></li>
+			<li><a href='gatherers_list.php'>Users</a></li>
+			<li><a href='cases_export.php'>Export</a></li>
+			<li><a href='settings_page.php'>Settings</a></li>
+			<li class='right'><a href='msauth.php?action=logout'>Logout</a></li>
+		</ul>";
+	} else {
+		echo
+		"<ul class='topnav'>
+			<li><a class='active' href='cases_list.php'>Cases</a></li>
+			<li class='right'><a href='msauth.php?action=logout'>Logout</a></li>
+		</ul>";
+	}
+	?>
 	<div class="container">
 		<section>
 			<h1>Case Story <span>List</span></h1>
@@ -209,6 +239,7 @@ $(document).ready(function() {
 							<th>Gender</th>
 							<th>Program</th>
 							<th>Interview Date</th>
+							<th>Gatherer</th>
 							<th>Location</th>
 							<th>Attachments</th>
 						</tr>
@@ -221,6 +252,7 @@ $(document).ready(function() {
 							<th>Gender</th>
 							<th>Program</th>
 							<th>Interview Date</th>
+							<th>Gatherer</th>
 							<th>Location</th>
 							<th>Atachments</th>
 						</tr>
