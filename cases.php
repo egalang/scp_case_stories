@@ -18,7 +18,17 @@ use
 	DataTables\Editor\Validate,
 	DataTables\Editor\ValidateOptions;
 
-// Build our Editor instance and process the data coming from _POST
+	function logChange ( $db, $action, $id, &$values ) {
+		$db->insert( 'logs', array(
+			'user'   => $_COOKIE['gatherer'],
+			'action' => $action,
+			'values' => json_encode( $values ),
+			'row'    => $id
+			//'when'   => date('c')
+		) );
+	}
+
+	// Build our Editor instance and process the data coming from _POST
 Editor::inst( $db, 'cases' )
 	->where('gatherer',$_COOKIE['gatherer'])
 	->fields(
@@ -32,7 +42,11 @@ Editor::inst( $db, 'cases' )
             ->validator( Validate::notEmpty( ValidateOptions::inst()
                 ->message( 'A last name is required' )	
             ) ),
-		Field::inst( 'cases.age' ),
+		Field::inst( 'cases.age' )
+            ->validator( Validate::notEmpty( ValidateOptions::inst()
+                ->message( 'Agw is required' )	
+            ) )
+            ->validator( Validate::numeric() ),
 		Field::inst( 'cases.gender' ),
 		Field::inst( 'cases.summary' ),
 		Field::inst( 'cases.story' ),
@@ -79,7 +93,14 @@ Editor::inst( $db, 'cases' )
     ->leftJoin( 'programs', 'programs.id', '=', 'cases.project_information_id' )
     ->leftJoin( 'locations', 'locations.id', '=', 'programs.location' )
 	->on( 'postCreate', function ( $editor, $id, &$values, &$row ) {
+		logChange( $editor->db(), 'Create', $id, $values );
 		exec("php -f mail_send.php id=$id");
+    } )
+	->on( 'postEdit', function ( $editor, $id, &$values, &$row ) {
+        logChange( $editor->db(), 'Edit', $id, $values );
+    } )
+    ->on( 'postRemove', function ( $editor, &$id, &$values ) {
+        logChange( $editor->db(), 'Delete', $id, $values );
     } )
 	->process( $_POST )
 	->json();

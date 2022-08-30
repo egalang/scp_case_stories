@@ -38,6 +38,13 @@
 	<link rel="shortcut icon" type="image/ico" href="/login/images/icons/favicon.ico">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function(event) {
+        document.querySelectorAll('img').forEach(function(img){
+            img.onerror = function(){this.src='file.jpg';};
+        })
+        });
+    </script>
     <style type="text/css" class="init">
 		ul {
 			position: -webkit-sticky; /* Safari */
@@ -86,7 +93,8 @@
 		<li class="right"><a href="logout.php">Logout</a></li>
 	</ul> -->
     <div class="container p-5 my-5">        
-        <a href="cases_list.php" class="btn btn-secondary" role="button">Return to List</a>
+        <!-- <a href="cases_list.php" class="btn btn-secondary" role="button">Return to List</a> -->
+        <button type="button" class="btn btn-secondary" onclick="self.close()">Close</button>
         <hr>
         <div class="row">
             <div class="col">
@@ -111,7 +119,7 @@
             $result = $conn->query($sql);
             if ($result->num_rows > 0) {
                 while($row = $result->fetch_assoc()) {
-                    echo "<img src='".$row['web_path']."' class='img-thumbnail' width='150'>";
+                    echo "<a href='".$row['web_path']."' target='_blank' download='".$row['filename']."'><img src='".$row['web_path']."' class='img-thumbnail' width='150'></a>";
                 }
             }
             $conn->close();

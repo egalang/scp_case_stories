@@ -54,6 +54,10 @@
 			ul.topnav li.right, 
 			ul.topnav li {float: none;}
 		}
+
+		div.DTE_Field_Type_textarea textarea {
+			height: 160px;
+		}
 	</style>
 	<script type="text/javascript" language="javascript" src="https://code.jquery.com/jquery-3.5.1.js"></script>
 	<script type="text/javascript" language="javascript" src="https://cdn.datatables.net/1.10.22/js/jquery.dataTables.min.js"></script>
@@ -147,13 +151,15 @@ $(document).ready(function() {
 		dom: "Bfrtip",
 		ajax: "cases.php",
 		columns: [
+			// { data: null, render: function ( data, type, row ) {
+			// 	// Combine the first and last names into a single table field
+			// 	//return '<a href="cases_page_m.php?id='+data.cases.id+'">'+data.cases.id+'</a>';
+			// 	return '<a href="cases_page.php?id='+data.cases.id+'">'+data.cases.id+'</a>';
+			// } },
+			{ data: "cases.id" },
 			{ data: null, render: function ( data, type, row ) {
 				// Combine the first and last names into a single table field
-				return '<a href="cases_page_m.php?id='+data.cases.id+'">'+data.cases.id+'</a>';
-			} },
-			{ data: null, render: function ( data, type, row ) {
-				// Combine the first and last names into a single table field
-				return data.cases.firstname+' '+data.cases.middlename+' '+data.cases.lastname;
+				return '<a href="cases_page_m.php?id='+data.cases.id+'" target="_blank">'+data.cases.firstname+' '+data.cases.middlename+' '+data.cases.lastname+'</a>';
 			} },
 			{ data: "cases.age" },
 			{ data: "cases.gender" },

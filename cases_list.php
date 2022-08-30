@@ -65,6 +65,10 @@
 			ul.topnav li.right, 
 			ul.topnav li {float: none;}
 		}
+
+		div.DTE_Field_Type_textarea textarea {
+			height: 160px;
+		}
 	</style>
 	<script type="text/javascript" language="javascript" src="https://code.jquery.com/jquery-3.5.1.js"></script>
 	<script type="text/javascript" language="javascript" src="https://cdn.datatables.net/1.10.22/js/jquery.dataTables.min.js"></script>
@@ -73,6 +77,11 @@
 	<script type="text/javascript" language="javascript" src="https://cdn.datatables.net/buttons/1.6.5/js/dataTables.buttons.min.js"></script>
 	<script type="text/javascript" language="javascript" src="https://cdn.datatables.net/select/1.3.1/js/dataTables.select.min.js"></script>
 	<script type="text/javascript" language="javascript" src="editor/js/dataTables.editor.min.js"></script>
+	<script type="text/javascript" language="javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
+	<script type="text/javascript" language="javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
+	<script type="text/javascript" language="javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
+	<script type="text/javascript" language="javascript" src="https://cdn.datatables.net/buttons/1.6.5/js/buttons.html5.min.js"></script>
+	<script type="text/javascript" language="javascript" src="https://cdn.datatables.net/buttons/1.6.5/js/buttons.print.min.js"></script>
 	<script type="text/javascript" language="javascript" src="editor/examples/resources/syntax/shCore.js"></script>
 	<script type="text/javascript" language="javascript" src="editor/examples/resources/demo.js"></script>
 	<script type="text/javascript" language="javascript" src="editor/examples/resources/editor-demo.js"></script>
@@ -160,24 +169,30 @@ $(document).ready(function() {
 		//ajax: "cases.php",
 		ajax: "<?php echo $case; ?>",
 		columns: [
+			// { data: null, render: function ( data, type, row ) {
+			// 	// Combine the first and last names into a single table field
+			// 	//return '<a href="cases_page_m.php?id='+data.cases.id+'">'+data.cases.id+'</a>';
+			// 	return '<a href="cases_page.php?id='+data.cases.id+'">'+data.cases.id+'</a>';
+			// } },
+			{ data: "cases.id" },
 			{ data: null, render: function ( data, type, row ) {
 				// Combine the first and last names into a single table field
-				//return '<a href="cases_page_m.php?id='+data.cases.id+'">'+data.cases.id+'</a>';
-				return '<a href="cases_page.php?id='+data.cases.id+'">'+data.cases.id+'</a>';
-			} },
-			{ data: null, render: function ( data, type, row ) {
-				// Combine the first and last names into a single table field
-				return data.cases.firstname+' '+data.cases.middlename+' '+data.cases.lastname;
+				return '<a href="cases_page.php?id='+data.cases.id+'" target="_blank">'+data.cases.firstname+' '+data.cases.middlename+' '+data.cases.lastname+'</a>';
 			} },
 			{ data: "cases.age" },
 			{ data: "cases.gender" },
 			{ data: "programs.title" },
 			{ data: "cases.interview_date" },
 			{ data: "cases.gatherer" },
+			{ data: "programs.background" },
 			{ data: null, render: function ( data, type, row ) {
 				// Combine the first and last names into a single table field
 				return data.locations.barangay+', '+data.locations.municipality+', '+data.locations.province;
 			} },
+			{ data: "cases.summary" },
+			{ data: "cases.story" },
+			{ data: "cases.additional_interview" },
+			{ data: "cases.date" },
 			{
 				data: "files",
 				render: function ( d ) {
@@ -194,7 +209,18 @@ $(document).ready(function() {
 		buttons: [
 			{ extend: "create", editor: editor },
 			{ extend: "edit",   editor: editor },
-			{ extend: "remove", editor: editor }
+			{ extend: "remove", editor: editor },
+            {
+                extend: 'collection',
+                text: 'Export',
+                buttons: [
+                    'copy',
+                    'excel',
+                    'csv',
+                    'pdf',
+                    'print'
+                ]
+            }
 		]
 	} );
 } );
@@ -212,8 +238,8 @@ $(document).ready(function() {
 			<li><a href='programs_list.php'>Programs</a></li>
 			<li><a href='locations_list.php'>Locations</a></li>
 			<li><a href='gatherers_list.php'>Users</a></li>
-			<li><a href='cases_export.php'>Export</a></li>
 			<li><a href='settings_page.php'>Settings</a></li>
+			<li><a href='logs_list.php'>Logs</a></li>
 			<li class='right'><a href='msauth.php?action=logout'>Logout</a></li>
 		</ul>";
 	} else {
@@ -239,23 +265,33 @@ $(document).ready(function() {
 							<th>Age</th>
 							<th>Gender</th>
 							<th>Program</th>
+							<th>Background</th>
 							<th>Interview Date</th>
 							<th>Gatherer</th>
 							<th>Location</th>
+							<th>Summary</th>
+							<th>Story</th>
+							<th>Additional Interview</th>
+							<th>Create Date</th>
 							<th>Attachments</th>
 						</tr>
 					</thead>
 					<tfoot>
 						<tr>
 							<th>ID</th>
-                            <th>Name</th>
+							<th>Name</th>
 							<th>Age</th>
 							<th>Gender</th>
 							<th>Program</th>
+							<th>Background</th>
 							<th>Interview Date</th>
 							<th>Gatherer</th>
 							<th>Location</th>
-							<th>Atachments</th>
+							<th>Summary</th>
+							<th>Story</th>
+							<th>Additional Interview</th>
+							<th>Create Date</th>
+							<th>Attachments</th>
 						</tr>
 					</tfoot>
 				</table>
