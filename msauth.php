@@ -1,11 +1,15 @@
 <?php
 
-$appid = "40aa6ca1-881c-43f1-9678-59ab33e5adf7";
-$tennantid = "fcb15f07-e2b0-4a30-93e8-928a0ff1e25c";
-$secret = "SD08Q~CusVSncHnYFqMMlZ3HMYno9BKyWusJ-aoq";
-// $appid = "6d63fc6b-7240-436e-a907-fe3fe3a1c648";
-// $tennantid = "37ef3d19-1651-4452-b761-dc2414bf0416";
-// $secret = "7ev8Q~NAHhbFZy.zjzyHreql1gW7lVC4DGxyGc~S";
+require 'db.php';
+$conn = new mysqli($servername, $username, $password, $dbname);
+$sql = "SELECT * FROM settings;";
+$result = $conn->query($sql);
+$row = $result->fetch_assoc();
+
+$appid = $row['client_id'];
+$tennantid = $row['tenant_id'];
+$secret = $row['secret'];
+$conn->close();
 $login_url ="https://login.microsoftonline.com/".$tennantid."/oauth2/v2.0/authorize";
 
 session_start ();
