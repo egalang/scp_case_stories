@@ -13,16 +13,20 @@
 		if ($result->num_rows > 0) {
 			$row = $result->fetch_assoc();
 			setcookie('gatherer', $row['name'], time() + (86400 * 30), "/"); // 86400 = 1 day
-			header("Location: ../");
+			if (isset ($_COOKIE['mobile'])){
+				header("Location: ../cases_list_m.php");
+			} else {
+				header("Location: ../");
+			}
+			//header("Location: ../");
+		} else {
+			header("Location: ../msauth.php");
 		}
 		$conn->close();
 		// fetch data end
+	} else {
+		header("Location: ../msauth.php");
 	}
-	$appid = "26bc6208-a311-439c-b604-bac4c7868b1a";
-	$tennantid = "e1b43892-9a7c-4e7b-9794-d24014da6f25";
-	$secret = "~lH8Q~gxqNugqPrUGh~JKXsHPwk3XaEwynoOGdbd";
-	$login_url ="https://login.microsoftonline.com/".$tennantid."/oauth2/v2.0/authorize";
-	
 	session_start ();
 	$_SESSION['state']=session_id();
 
@@ -68,7 +72,7 @@
 		<!--x
 		<div class="container-login100" style="background-image: url('images/bg-01.jpg');">
 		-->
-		<div class="container-login100" style="background-image: url('https://www.savethechildren.org.ph/__resources/webdata/images/pages/8_og_.jpg');">
+		<div class="container-login100" style="background-image: url('https://wallpaper.dog/large/987479.jpg');">
 			<div class="wrap-login100 p-t-30 p-b-50">
 				<span class="login100-form-title p-b-41">
 					Administrator Login

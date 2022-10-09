@@ -84,7 +84,11 @@ if ($_GET['action'] == 'logout'){
 <html>
     <head>
         <title>Save the Children Philippines - Case Stories</title>
-        <meta charset="UTF-8">
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css" rel="stylesheet">
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js"></script>
+        <!-- <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="icon" type="image/png" href="login/images/icons/favicon.ico"/>
         <link rel="stylesheet" type="text/css" href="login/vendor/bootstrap/css/bootstrap.min.css">
@@ -96,11 +100,51 @@ if ($_GET['action'] == 'logout'){
         <link rel="stylesheet" type="text/css" href="login/vendor/select2/select2.min.css">
         <link rel="stylesheet" type="text/css" href="login/vendor/daterangepicker/daterangepicker.css">
         <link rel="stylesheet" type="text/css" href="login/css/util.css">
-        <link rel="stylesheet" type="text/css" href="login/css/main.css">
+        <link rel="stylesheet" type="text/css" href="login/css/main.css"> -->
     </header>
-    <body>
-        <div class="container-login100" style="background-image: url('https://www.savethechildren.org.ph/__resources/webdata/images/pages/8_og_.jpg');">
+    <body style="background-color: url('https://wallpaper.dog/large/987479.jpg');">
+        <!-- <div class="container-login100" style="background-image: url('https://media.istockphoto.com/vectors/cute-boys-and-girls-holding-hands-and-dancing-around-the-world-vector-id1159732711?k=20&m=1159732711&s=612x612&w=0&h=oLvndRqejvFXumo9HVs2p-g4PO55ZNsEpI9lglRyhEo=');">
             <?php echo '<a href="?action=login"><img src="login/images/mslogin.png"></a></h2>'; ?>
+        </div> -->
+        <div class='row'>
+            <div class='col-sm-4'>&nbsp;</div>
+            <div class='col-sm-4'>
+                <div class='container'>
+                    <br><h2>Sign In</h2>
+                    <div class="card">
+                        <div class="card-body">
+                            <form action='login/index.php'>
+                                <!-- Email input -->
+                                <div class="form-outline mb-4">
+                                    <input type="email" id="form2Example1" class="form-control" name="username"/>
+                                    <label class="form-label" for="form2Example1">Email address</label>
+                                </div>
+
+                                <!-- Password input -->
+                                <div class="form-outline mb-4">
+                                    <input type="password" id="form2Example2" class="form-control" name="pass"/>
+                                    <label class="form-label" for="form2Example2">Password</label>
+                                </div>
+
+                                <!-- Submit button -->
+                                <div class="d-grid">
+                                    <button type="submit" class="btn btn-primary btn-block mb-4">Sign in</button>
+                                </div>
+
+                                <!-- Register buttons -->
+                                <div class="text-center">
+                                    <p>- or -</p>
+                                </div>
+
+                                <div class="d-grid">
+                                    <?php echo '<a class="btn btn-dark btn-block mb-4" href="?action=login"><img src="ms_icon.png" height="22"> Sign in with Microsoft</a></h2>'; ?>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class='col-sm-4'>&nbsp;</div>
         </div>
     </body>
 </html>
